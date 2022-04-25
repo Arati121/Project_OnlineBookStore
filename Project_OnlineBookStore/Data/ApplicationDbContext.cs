@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Project_OnlineBookStore.Models;
 
 namespace Project_OnlineBookStore.Data
 {
@@ -12,5 +13,6 @@ namespace Project_OnlineBookStore.Data
             : base(options)
         {
         }
+        public DbSet<Project_OnlineBookStore.Models.Users> Userss { get; set; }
     }
 }

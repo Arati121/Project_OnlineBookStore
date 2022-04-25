@@ -50,6 +50,7 @@ namespace Project_OnlineBookStore.Controllers
             return View();
         }
         [HttpPost]
+      
         public IActionResult Register(Users ulist)
         {
             if (ModelState.IsValid)

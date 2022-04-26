@@ -28,17 +28,21 @@ namespace Project_OnlineBookStore.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult Login(Users userlist)
+        public IActionResult Login(Users user)
         {
             using (_db)
             {
-                var user = _db.Userss.Single(u => u.UserName == userlist.UserName && u.Password == userlist.Password);
-                if (user != null)
+                var user1 = _db.Users.Single(u => u.EmailId == user.EmailId && u.Password == user.Password);
+                if (user1 != null)
                 {
-                    /*ISession session;
-                    session["UserName"] = user.uname.ToString();*/
-                    return RedirectToAction("UserDashbord");
-
+                    if (user1.RoleId == 1)
+                    {
+                        return RedirectToAction("Index", "Admin");
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
                 }
             }
             return View();
@@ -51,17 +55,18 @@ namespace Project_OnlineBookStore.Controllers
         }
         [HttpPost]
       
-        public IActionResult Register(Users ulist)
+        public IActionResult Register(Users user)
         {
             if (ModelState.IsValid)
             {
                 using (_db)
                 {
-                    _db.Userss.Add(ulist);
+                     user.RoleId = 2;
+                    _db.Users.Add(user);
                     _db.SaveChanges();
                 }
                 ModelState.Clear();
-                ViewBag.Message = ulist.UserName + " " + " Registered";
+                ViewBag.Message = user.UserName + " " + " Registered";
             }
             return View();
         }

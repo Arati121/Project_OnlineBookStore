@@ -24,6 +24,7 @@
   <ItemGroup>
     <Folder Include="Entities\" />
     <Folder Include="Views\AccountController1\" />
+    <Folder Include="wwwroot\images\" />
   </ItemGroup>
 
 </Project>

@@ -2,8 +2,8 @@
 
 @{
     ViewData["Title"] = "Delete";
-    Layout = "D:/AllsetupsfromC/Project_OnlineBookStore/Project_OnlineBookStore/Views/Shared/Admin_L.cshtml";
-
+    Layout = "~/Views/Shared/Admin_L.cshtml";
+}
 }
 
 <h1>Delete</h1>
@@ -13,44 +13,46 @@
     <h4>Book</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.BName)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.BName)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.BInfo)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.BInfo)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.BPrice)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.BPrice)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.BAuthor)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.BAuthor)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.image)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.image)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
+            
             @Html.DisplayNameFor(model => model.CatId)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
+          
             @Html.DisplayFor(model => model.CatId)
         </dd>
     </dl>
-    
+
     <form asp-action="Delete">
         <input type="hidden" asp-for="BId" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |

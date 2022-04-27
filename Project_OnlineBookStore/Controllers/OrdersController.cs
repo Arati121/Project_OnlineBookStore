@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,38 +11,22 @@ using Project_OnlineBookStore.Models;
 
 namespace Project_OnlineBookStore.Controllers
 {
-    public class AdminController : Controller
+    public class OrdersController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public AdminController(ApplicationDbContext context)
+        public OrdersController(ApplicationDbContext context)
         {
             _context = context;
         }
-        
-        // GET: Admin
+
+        // GET: Orders
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Book.ToListAsync());
-        }
-        public IActionResult AllBooksList()
-        {
-            var books = _context.Book.ToList();
-            var cat = _context.Categories.ToList();
-            foreach(Book item in books)
-            {
-                foreach(Category c in cat)
-                {
-                    if(c.CatId==item.CatId)
-                    {
-                        item.CatName = c.CatName;
-                    }
-                }
-            }
-            return View(books);
+            return View(await _context.Orders.ToListAsync());
         }
 
-        // GET: Admin/Details/5
+        // GET: Orders/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -49,51 +34,54 @@ namespace Project_OnlineBookStore.Controllers
                 return NotFound();
             }
 
-            var book = await _context.Book
-                .FirstOrDefaultAsync(m => m.BId == id);
-            if (book == null)
+            var orders = await _context.Orders
+                .FirstOrDefaultAsync(m => m.OId == id);
+            if (orders == null)
             {
                 return NotFound();
             }
 
+            return View(orders);
+        }
+
+        // GET: Orders/Create
+        public async Task<IActionResult> Create(int ? id)
+        {
+            var book = await _context.Book.FindAsync(id);
             return View(book);
         }
 
-        // GET: Admin/Create
-        public IActionResult Create()
-        {
-            var cat = _context.Categories.ToList();
-            ViewBag.Category = new SelectList(cat, "CatId", "CatName");
-            return View();
-        }
-
-        // POST: Admin/Create
+        // POST: Orders/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("BId,BName,BInfo,BPrice,BAuthor,image,CatId")] Book book)
+        public async Task<IActionResult> Create(int BId,int Quantity)
         {
-            if (ModelState.IsValid)
-            {
+            Orders order = new Orders();
+            order.BId = BId;
+            order.Ouantity = Quantity;
+            order.UId = Convert.ToInt32(HttpContext.Session.GetString("UId")); ;
+            order.Orderdate = DateTime.Today;
 
-                _context.Add(book);
+                _context.Add(order);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(book);
+                return RedirectToAction(nameof(myorders));
+            
         }
-        
-        //catalog
-
-        public async Task<IActionResult> Catalogue()
+        public async Task<IActionResult>myorders()
         {
-            return View(await _context.Book.ToListAsync());
+            int id = Convert.ToInt32(HttpContext.Session.GetString("UId")); ;
+            var orItems = await _context.Orders.FromSqlRaw("select *From Orders where UId='" + id + "' ").ToListAsync();
+            return View(orItems);
         }
-        // GET: Admin/Edit/5
 
+        public async Task<IActionResult> customerreport()
+        {
+            
+        }
 
-        // GET: Admin/Edit/5
+        // GET: Orders/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -101,26 +89,22 @@ namespace Project_OnlineBookStore.Controllers
                 return NotFound();
             }
 
-            var book = await _context.Book.FindAsync(id);
-            if (book == null)
+            var orders = await _context.Orders.FindAsync(id);
+            if (orders == null)
             {
                 return NotFound();
             }
-            return View(book);
+            return View(orders);
         }
-        /* var book = _context.Book.Where(b => b.BId == b.BId).SingleOrDefault();
-          var cat = _context.Categories.ToList();
-          ViewBag.Category = new SelectList(cat, "CatId", "CatName");
-         */
 
-        // POST: Admin/Edit/5
+        // POST: Orders/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("BId,BName,BInfo,BPrice,BAuthor,image,CatId")] Book book)
+        public async Task<IActionResult> Edit(int id, [Bind("OId,BId,UId,Ouantity,Orderdate")] Orders orders)
         {
-            if (id != book.BId)
+            if (id != orders.OId)
             {
                 return NotFound();
             }
@@ -129,12 +113,12 @@ namespace Project_OnlineBookStore.Controllers
             {
                 try
                 {
-                    _context.Update(book);
+                    _context.Update(orders);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!BookExists(book.BId))
+                    if (!OrdersExists(orders.OId))
                     {
                         return NotFound();
                     }
@@ -145,10 +129,10 @@ namespace Project_OnlineBookStore.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(book);
+            return View(orders);
         }
 
-        // GET: Admin/Delete/5
+        // GET: Orders/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -156,30 +140,30 @@ namespace Project_OnlineBookStore.Controllers
                 return NotFound();
             }
 
-            var book = await _context.Book
-                .FirstOrDefaultAsync(m => m.BId == id);
-            if (book == null)
+            var orders = await _context.Orders
+                .FirstOrDefaultAsync(m => m.OId == id);
+            if (orders == null)
             {
                 return NotFound();
             }
 
-            return View(book);
+            return View(orders);
         }
 
-        // POST: Admin/Delete/5
+        // POST: Orders/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var book = await _context.Book.FindAsync(id);
-            _context.Book.Remove(book);
+            var orders = await _context.Orders.FindAsync(id);
+            _context.Orders.Remove(orders);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool BookExists(int id)
+        private bool OrdersExists(int id)
         {
-            return _context.Book.Any(e => e.BId == id);
+            return _context.Orders.Any(e => e.OId == id);
         }
     }
 }

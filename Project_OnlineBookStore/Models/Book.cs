@@ -23,6 +23,10 @@ namespace Project_OnlineBookStore.Models
 
         public string image { get; set; }
 
-        public int CatId { get; set; }
+       
+        public int  CatId { get; set; }
+
+        [NotMapped]
+        public string ? CatName { get; set; }
     }
 }

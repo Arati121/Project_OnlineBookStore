@@ -12,5 +12,8 @@ namespace Project_OnlineBookStore.Models
         public int OId { get; set; }
         public int BId { get; set; }
         public int UId { get; set; }
+        public int Ouantity { get; set; }
+
+        public DateTime Orderdate { get; set; }
     }
 }

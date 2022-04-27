@@ -13,7 +13,11 @@ namespace Project_OnlineBookStore.Data
             : base(options)
         {
         }
-        public DbSet<Project_OnlineBookStore.Models.Users> Users { get; set; }
-        public DbSet<Project_OnlineBookStore.Models.Book> Book { get; set; }
+        public DbSet<Users> Users { get; set; }
+        public DbSet<Book> Book { get; set; }
+        public DbSet<Orders> Orders { get; set; }
+
+        public DbSet<Category> Categories { get; set; }
+        
     }
 }

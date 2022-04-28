@@ -1,0 +1,31 @@
+﻿
+@model IEnumerable<Project_OnlineBookStore.Models.Book>
+
+
+@{ ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+
+
+<div class="row">
+ 
+    @foreach (Project_OnlineBookStore.Models.Book item in @Model)
+    {
+        <div class="col-lg-3 col-md-3 col-xs-12">
+            <div class="card" style="width: 18rem;">
+                @*   <img src="~/images/Head-First-C-253x300.jpg" class="card-img-top" alt="...">*@
+                <img src="~/images/shreeman.jpg" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title"> Name: @Html.DisplayFor(modelItem => item.BName)</h5>
+                    <lable><h5 class="card-title"> Price: @Html.DisplayFor(modelItem => item.BPrice) Rs.</h5></lable>
+
+                    <p class="card-text"> </p>
+                  
+                    @Html.ActionLink("Order", "Order", new { BId = item.BId })
+                  
+                    <a href="#" class="box-shadow"></a>
+                </div>
+            </div>
+        </div>}
+</div>

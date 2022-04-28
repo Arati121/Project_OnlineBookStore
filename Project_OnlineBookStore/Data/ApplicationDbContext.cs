@@ -17,6 +17,8 @@ namespace Project_OnlineBookStore.Data
         public DbSet<Book> Book { get; set; }
         public DbSet<Orders> Orders { get; set; }
 
+       
+        public DbSet<Report> Report { get; set; }
         public DbSet<Category> Categories { get; set; }
         
     }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Project_OnlineBookStore.Data;
 using Project_OnlineBookStore.Models;
@@ -38,11 +39,13 @@ namespace Project_OnlineBookStore.Controllers
                 {
                     if (user1.RoleId == 1)
                     {
+                       
                         return RedirectToAction("Index", "Admin");
                     }
                     else
                     {
-                        return RedirectToAction("Index", "Home");
+                        HttpContext.Session.SetInt32("UserId", user.UId);
+                        return RedirectToAction("Index","Customer");
                     }
                 }
             }

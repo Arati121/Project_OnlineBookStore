@@ -32,23 +32,24 @@ namespace Project_OnlineBookStore.Controllers
         [HttpPost]
         public IActionResult Login(Users user)
         {
-            using (_db)
-            {
-                var user1 = _db.Users.Single(u => u.EmailId == user.EmailId && u.Password == user.Password);
+            
+            
+                var user1 = _db.Users.Where(u => u.EmailId == user.EmailId && u.Password == user.Password).SingleOrDefault();
                 if (user1 != null)
                 {
-                    if (user1.RoleId == 1)
+                    if (user1.RoleId == 2)
                     {
-                       
-                        return RedirectToAction("Index", "Admin");
+                        HttpContext.Session.SetInt32("UserId", user1.UId);
+                        return RedirectToAction("Index", "Customer");
+                   // return RedirectToAction("Index", "Admin");
                     }
                     else
                     {
-                        HttpContext.Session.SetInt32("UserId", user.UId);
-                        return RedirectToAction("Index","Customer");
+                        //HttpContext.Session.SetInt32("UserId", user1.UId);
+                        return RedirectToAction("Index","Admin");
                     }
                 }
-            }
+            
             return View();
         }
 

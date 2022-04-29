@@ -1,4 +1,4 @@
-﻿@using Project_OnlineBookStore.Models;
+﻿
 @model Project_OnlineBookStore.Models.Orders
 
 
@@ -10,7 +10,7 @@
 <h1>Add To Card</h1>
 
 <h4></h4>
-@Html.Raw(ViewBag.OrderPlaced)
+
 
 @using (Html.BeginForm(@Model))
 {
@@ -23,7 +23,7 @@
 
             <h5 id="scrollspyHeading2">Book Price: @Html.DisplayFor(model => model.BPrice)</h5>
 
-            <h5 id="scrollspyHeading2">Book Quntity: @Html.DisplayFor(model => model.Ouantity)</h5>
+            <h5 id="scrollspyHeading2">Book Quntity: @Html.DisplayFor(model => model.Quantity)</h5>
 
             <h5 id="scrollspyHeading2">Total Amount: @Html.DisplayFor(model => model.TotalBill)</h5>
 

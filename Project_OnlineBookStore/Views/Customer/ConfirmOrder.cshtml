@@ -1,0 +1,50 @@
+﻿@model Project_OnlineBookStore.Models.Orders
+
+<div>
+    <h4> confrim Order</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.UId)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.UId)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.BId)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.BId)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.BPrice)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.BPrice)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TotalBill)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TotalBill)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Quantity)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Quantity)
+        </dd>
+        @*
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Orderdate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Orderdate)
+        </dd>
+        *@
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.OId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

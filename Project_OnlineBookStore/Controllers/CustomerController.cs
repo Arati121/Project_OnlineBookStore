@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Project_OnlineBookStore.Data;
 using Project_OnlineBookStore.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -45,21 +46,21 @@ namespace Project_OnlineBookStore.Controllers
 
                 od.BName = prod.BName;
                 od.BId = prod.BId;
-                od.Ouantity = qty;
+                od.Quantity = qty;
                 od.BPrice = prod.BPrice;
-                od.TotalBill = od.Ouantity * od.BPrice;
+                od.TotalBill = od.Quantity * od.BPrice;
                 // ViewBag.Order=od;
-                HttpContext.Session.SetString("data", JsonConvert.SerializeObject(od));
+                HttpContext.Session.SetString("order", JsonConvert.SerializeObject(od));
 
                 return RedirectToAction("Cart");
             }
-            return RedirectToAction("Cart");
-            //return View();
+            //return RedirectToAction("Cart");
+            return View();
         }
         [HttpGet]
         public IActionResult Cart()
         {
-            var data = HttpContext.Session.GetString("data");
+            var data = HttpContext.Session.GetString("order");
             Orders o = JsonConvert.DeserializeObject<Orders>(data);
             ViewBag.obj = o;
             return View(o);
@@ -68,13 +69,14 @@ namespace Project_OnlineBookStore.Controllers
         public IActionResult Cart(Orders ordered)
         {
             ordered.UId = (int)HttpContext.Session.GetInt32("UserId");
+         //   ordered.OrderDate = Convert.ToDateTime.(ToShortDateString;
             context.Orders.Add(ordered);
             int r = context.SaveChanges();
 
             if (r == 1)
             {
                 ViewBag.OrderPlaced = "<script> alert('Order Placed!') </script>";
-                return RedirectToAction("Index");
+                return RedirectToAction("ConfirmOrder");
             }
             else
             {
@@ -83,6 +85,14 @@ namespace Project_OnlineBookStore.Controllers
             }
 
         }
+        public IActionResult ConfirmOrder()
+        {
+            int id = (int)HttpContext.Session.GetInt32("UserId");
+            var result = context.Orders.Where(x => x.UId == id).OrderByDescending(y=>y.OId).Take(1);
+            return View(result);
+        }
+
+
         [HttpPost]
         public IActionResult Logout()
         {

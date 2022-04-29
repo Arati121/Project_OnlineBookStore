@@ -15,11 +15,15 @@ namespace Project_OnlineBookStore.Models
         public int OId { get; set; }
         public int UId { get; set; }
         public int BId { get; set; }
-        public string BName { get; set; }
+      
         public int BPrice { get; set; }
-        public int Ouantity { get; set; }
+       
         public int TotalBill { get; set; }
-        public DateTime Orderdate { get; set; }
+        [NotMapped]
+        public string BName { get; set; }
+        public int Quantity { get; set; }
+      
+       // public DateTime OrderDate { get; set; }
        
 
     }
